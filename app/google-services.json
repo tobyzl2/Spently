@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "244011455707",
+    "firebase_url": "https://spently-2625a.firebaseio.com",
+    "project_id": "spently-2625a",
+    "storage_bucket": "spently-2625a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244011455707:android:16cb0b61c00afe8d",
+        "android_client_info": {
+          "package_name": "com.spently.spently"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244011455707-i5e28jim5q7o0b698ttktodfeluhj6vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXKqm65M5qHoSv9-IL4WQ0SoGF9VJ98lo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
