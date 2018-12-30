@@ -4,11 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 
 public class ImageHelper {
@@ -24,10 +28,11 @@ public class ImageHelper {
         // Save a file: path for use with ACTION_VIEW intents
         return image;
     }
-    public static void setImage(ImageView imageView, String photoPath) {
+
+    public static Bitmap createBitmap(String photoPath) {
         // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
+        int targetW = 1020;
+        int targetH = 1200;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -44,8 +49,7 @@ public class ImageHelper {
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
-        imageView.setImageBitmap(rotateImage(photoPath, bitmap));
+        return rotateImage(photoPath, BitmapFactory.decodeFile(photoPath, bmOptions));
     }
 
     public static Bitmap rotateImage(String photoPath, Bitmap bitmap) {
