@@ -18,15 +18,17 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).addToBackStack(null).commit();
                     return true;
-                case R.id.navigation_charts:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new ChartsFragment()).addToBackStack(null).commit();
+                case R.id.navigation_statistics:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new StatisticsFragment()).addToBackStack(null).commit();
                     return true;
                 case R.id.navigation_entries:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new EntriesFragment()).addToBackStack(null).commit();
                     return true;
             }
             return false;
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

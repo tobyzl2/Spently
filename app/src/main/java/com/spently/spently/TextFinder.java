@@ -2,8 +2,8 @@ package com.spently.spently;
 
 import java.util.ArrayList;
 
-public class TotalFinder {
-    public static double totalFinder(String inputText) {
+public class TextFinder {
+    public static double findTotal(String inputText) {
         String[] texts = inputText.trim().split("\\s+");
         ArrayList<Double> prices = new ArrayList<>();
         for (String text : texts) {
@@ -31,5 +31,13 @@ public class TotalFinder {
             }
         }
         return total;
+    }
+
+    public static String findName(String inputText) {
+        String[] texts = inputText.trim().split("\n");
+        if (texts.length == 0) {
+            return "";
+        }
+        return texts[0];
     }
 }

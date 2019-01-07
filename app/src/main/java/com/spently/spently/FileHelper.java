@@ -15,8 +15,7 @@ public class FileHelper {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, mode));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -25,11 +24,11 @@ public class FileHelper {
         ArrayList<String> result = new ArrayList<>();
         try {
             InputStream inputStream = context.openFileInput(filename);
-            if ( inputStream != null ) {
+            if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString;
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                while ((receiveString = bufferedReader.readLine()) != null) {
                     result.add(receiveString);
                 }
                 inputStream.close();
@@ -44,11 +43,11 @@ public class FileHelper {
         StringBuilder result = new StringBuilder();
         try {
             InputStream inputStream = context.openFileInput(filename);
-            if ( inputStream != null ) {
+            if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString;
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                while ((receiveString = bufferedReader.readLine()) != null) {
                     result.append(receiveString + "\n");
                 }
                 inputStream.close();
@@ -62,8 +61,8 @@ public class FileHelper {
     public static void removeItem (Context context, String filename, String item) {
         ArrayList<String> file = readFromFile(context, filename);
         writeToFile(context, filename, "", context.MODE_PRIVATE);
-        for(String entry : file){
-            if(!entry.equals(item)){
+        for (String entry : file) {
+            if (!entry.equals(item)) {
                 writeToFile(context, filename, entry + "\n", context.MODE_APPEND);
             }
         }
@@ -71,8 +70,8 @@ public class FileHelper {
 
     public static boolean containsItem(Context context, String filename, String item) {
         ArrayList<String> file = readFromFile(context, filename);
-        for(String entry : file){
-            if(entry.equals(item)){
+        for (String entry : file) {
+            if (entry.equals(item)) {
                 return true;
             }
         }
@@ -82,11 +81,11 @@ public class FileHelper {
     public static void updateItem (Context context, String filename, String item, String newItem) {
         ArrayList<String> file = readFromFile(context, filename);
         writeToFile(context, filename, "", context.MODE_PRIVATE);
-        for(String entry : file){
-            if(!entry.equals(item)){
+        for (String entry : file) {
+            if (!entry.equals(item)) {
                 writeToFile(context, filename, entry + "\n", context.MODE_APPEND);
             }
-            else{
+            else {
                 writeToFile(context, filename, newItem + "\n", context.MODE_APPEND);
             }
         }

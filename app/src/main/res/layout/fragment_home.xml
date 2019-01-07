@@ -9,166 +9,73 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.65"
-            android:background="@drawable/gradient"
-            android:gravity="center"
+            android:layout_weight="0.7"
+            android:background="@color/colorPrimary"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/home_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Home"
-                android:textColor="@color/colorLightText"
+                android:layout_marginTop="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/home_sub_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="40dp"
+                android:layout_margin="20dp"
                 android:text="Your Total Monthly Spendings"
-                android:textColor="@color/colorLightText"
+                android:layout_below="@id/home_title"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp" />
 
-            <android.support.v7.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_gravity="center"
-                android:elevation="20dp"
-                app:cardBackgroundColor="#000000"
-                app:cardCornerRadius="80dp">
-                <android.support.v7.widget.CardView
-                    android:layout_width="158dp"
-                    android:layout_height="158dp"
-                    android:layout_gravity="center"
-                    app:cardCornerRadius="80dp">
-                    <TextView
-                        android:id="@+id/total_spent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="$0.00"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="36sp" />
-                </android.support.v7.widget.CardView>
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.35"
-            android:background="@drawable/border"
-            android:orientation="horizontal">
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_above="@id/home_last_month"
-                        android:src="@drawable/ic_entries"/>
-
-                    <TextView
-                        android:id="@+id/home_last_month"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:text="Last Month"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/home_last_month_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@id/home_last_month"
-                        android:text="Data Not Avaliable"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="#000000"></View>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_above="@id/home_spending_goal"
-                        android:src="@drawable/ic_goal"/>
-
-                    <TextView
-                        android:id="@+id/home_spending_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:text="Spending Goal"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/home_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@+id/home_spending_goal"
-                        android:text="No Goal Set"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-                    <ProgressBar
-                        android:id="@+id/home_goal_progress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerHorizontal="true"
-                        android:max="100"
-                        android:layout_below="@id/home_goal" />
-
-                    <android.support.design.button.MaterialButton
-                        android:id="@+id/home_set_goal"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:text="Add a Goal" />
-                </RelativeLayout>
-            </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@color/colorSecondary">
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/picture_button"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:src="@drawable/outline_photo_camera_black_18"
-                android:tint="#ffffff" />
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+                <android.support.v7.widget.CardView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:elevation="20dp"
+                    app:cardBackgroundColor="#000000"
+                    app:cardCornerRadius="125dp">
+                    <android.support.v7.widget.CardView
+                        android:layout_width="248dp"
+                        android:layout_height="248dp"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="125dp">
+                        <TextView
+                            android:id="@+id/total_spent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="$0.00"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textSize="48sp" />
+                    </android.support.v7.widget.CardView>
+                </android.support.v7.widget.CardView>
+            </FrameLayout>
+            <android.support.design.button.MaterialButton
+                android:id="@+id/picture_button"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_alignParentBottom="true"
+                android:text="Add A New Entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

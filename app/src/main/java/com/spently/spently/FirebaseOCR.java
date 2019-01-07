@@ -13,6 +13,7 @@ import com.google.firebase.ml.vision.document.FirebaseVisionDocumentText;
 import com.google.firebase.ml.vision.document.FirebaseVisionDocumentTextRecognizer;
 
 import java.util.List;
+
 public class FirebaseOCR {
     public static void detectText(Bitmap bitmap, final Context context, final OCRFragment ocrFragment) {
         FirebaseVisionImage img = FirebaseVisionImage.fromBitmap(bitmap);
@@ -31,7 +32,7 @@ public class FirebaseOCR {
         });
     }
 
-    public static String processText(FirebaseVisionDocumentText text, Context context) {
+    public static String processText(FirebaseVisionDocumentText text) {
         if (text == null) {
             return null;
         }
