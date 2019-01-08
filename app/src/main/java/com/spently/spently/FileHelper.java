@@ -35,6 +35,7 @@ public class FileHelper {
             }
         }
         catch (Exception e) {
+            //File does not exist
         }
         return result;
     }

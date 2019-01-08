@@ -2,11 +2,8 @@ package com.spently.spently;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,29 +15,25 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -130,41 +123,39 @@ public class StatisticsFragment extends Fragment {
     }
 
     public void createPieChart() {
-        try {
-            entriesChart.setUsePercentValues(false);
-            entriesChart.animateY(1000, Easing.EaseInOutQuad);
-            entriesChart.setDragDecelerationFrictionCoef(0.99f);
-            entriesChart.setHoleRadius(98);
-            entriesChart.setHoleColor(424242);
-            entriesChart.getLegend().setEnabled(false);
-            entriesChart.getDescription().setEnabled(false);
-            entriesChart.setExtraOffsets(40, 40, 40, 40);
-            entriesChart.setCenterText("Spendings Per Label");
-            entriesChart.setCenterTextSize(16f);
-            entriesChart.setCenterTextColor(Color.WHITE);
-            ArrayList<PieEntry> chartValues = new ArrayList<>();
-            Map<String, Float> labelMap = getLabelMap();
-            for (String key : labelMap.keySet()) {
-                chartValues.add(new PieEntry(labelMap.get(key), key));
-            }
-            PieDataSet chartData = new PieDataSet(chartValues, "");
-            chartData.setColors(ColorTemplate.JOYFUL_COLORS);
-            chartData.setSliceSpace(5f);
-            chartData.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-            chartData.setValueLinePart1OffsetPercentage(80.f);
-            chartData.setValueLinePart1Length(0.2f);
-            chartData.setValueLinePart2Length(0.4f);
-            chartData.setValueLineColor(Color.WHITE);
-            PieData data = new PieData(chartData);
-            data.setValueTextSize(0f);
-            entriesChart.setData(data);
-        } catch (Exception e) {
-            //Files don't exist
+        entriesChart.setUsePercentValues(false);
+        entriesChart.animateY(1000, Easing.EaseInOutQuad);
+        entriesChart.setDragDecelerationFrictionCoef(0.99f);
+        entriesChart.setHoleRadius(98);
+        entriesChart.setHoleColor(424242);
+        entriesChart.getLegend().setEnabled(false);
+        entriesChart.getDescription().setEnabled(false);
+        entriesChart.setExtraOffsets(40, 40, 40, 40);
+        entriesChart.setCenterText("Spendings Per Label");
+        entriesChart.setCenterTextSize(16f);
+        entriesChart.setCenterTextColor(Color.WHITE);
+        ArrayList<PieEntry> chartValues = new ArrayList<>();
+        Map<String, Float> labelMap = getLabelMap();
+        if (labelMap.isEmpty()) {
+            return;
         }
-
+        for (String key : labelMap.keySet()) {
+            chartValues.add(new PieEntry(labelMap.get(key), key));
+        }
+        PieDataSet chartData = new PieDataSet(chartValues, "");
+        chartData.setColors(ColorTemplate.JOYFUL_COLORS);
+        chartData.setSliceSpace(5f);
+        chartData.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        chartData.setValueLinePart1OffsetPercentage(80.f);
+        chartData.setValueLinePart1Length(0.2f);
+        chartData.setValueLinePart2Length(0.4f);
+        chartData.setValueLineColor(Color.WHITE);
+        PieData data = new PieData(chartData);
+        data.setValueTextSize(0f);
+        entriesChart.setData(data);
     }
 
-    public Map<String, Float> getLabelMap() throws NullPointerException {
+    public Map<String, Float> getLabelMap() {
         ArrayList<String> entries = FileHelper.readFromFile(getContext(), "entries");
         Map<String, Float> labelMap = new HashMap<>();
         for (int i = entries.size() - 1; i >= 0; i--) {
@@ -180,63 +171,59 @@ public class StatisticsFragment extends Fragment {
 
     public void buildLabelList(LayoutInflater inflater, ViewGroup container) {
         LinearLayout labelList = statsLayout.findViewById(R.id.stats_labels_list);
-        try {
-            Map<String, Float> labelMap = getLabelMap();
-            for (String key : labelMap.keySet()) {
-                View labelView = inflater.inflate(R.layout.label_item, container, false);
-                TextView labelName = labelView.findViewById(R.id.label_name);
-                TextView labelPrice = labelView.findViewById(R.id.label_price);
-                labelName.setText(key);
-                labelPrice.setText("$" + String.format("%.2f", labelMap.get(key)));
-                labelList.addView(labelView);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        Map<String, Float> labelMap = getLabelMap();
+        if (labelMap.isEmpty()) {
+            labelList.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "No Statistics Available.", Toast.LENGTH_LONG).show();
+        }
+        for (String key : labelMap.keySet()) {
+            View labelView = inflater.inflate(R.layout.label_item, container, false);
+            TextView labelName = labelView.findViewById(R.id.label_name);
+            TextView labelPrice = labelView.findViewById(R.id.label_price);
+            labelName.setText(key);
+            labelPrice.setText("$" + String.format("%.2f", labelMap.get(key)));
+            labelList.addView(labelView);
         }
     }
 
     public void createBarChart() {
-        try {
-            monthChart.animateY(1000, Easing.EaseInOutQuad);
-            monthChart.setTouchEnabled(false);
-            YAxis yAxis = monthChart.getAxisLeft();
-            yAxis.setDrawGridLines(false);
-            yAxis.setAxisMinimum(0);
+        monthChart.animateY(1000, Easing.EaseInOutQuad);
+        monthChart.setTouchEnabled(false);
+        YAxis yAxis = monthChart.getAxisLeft();
+        yAxis.setDrawGridLines(false);
+        yAxis.setAxisMinimum(0);
 
-            XAxis xAxis = monthChart.getXAxis();
-            xAxis.setDrawGridLines(false);
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        XAxis xAxis = monthChart.getXAxis();
+        xAxis.setDrawGridLines(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-            monthChart.getAxisRight().setEnabled(false);
-            monthChart.getLegend().setEnabled(false);
-            monthChart.getDescription().setEnabled(false);
+        monthChart.getAxisRight().setEnabled(false);
+        monthChart.getLegend().setEnabled(false);
+        monthChart.getDescription().setEnabled(false);
 
-            ArrayList<BarEntry> chartValues = new ArrayList<>();
-            ArrayList<String> monthLog = FileHelper.readFromFile(getContext(), "month_log");
-            int start = 0;
-            float xPos = 0;
-            if (monthLog.size() > 13) {
-                start = monthLog.size() - 13;
-            }
-            for (int i = start; i < monthLog.size(); i++) {
-                String[] monthData = monthLog.get(i).split("_");
-                chartValues.add(new BarEntry(xPos, Float.parseFloat(monthData[2])));
-                xAxisLabel.add(monthData[0] + "/" + monthData[1]);
-                xPos++;
-            }
-            xAxisLabel.add(MonthTracker.getMonth() + "/" + MonthTracker.getYear());
-            chartValues.add(new BarEntry(xPos, Float.parseFloat(FileHelper.readFromFile(getContext(), "total").get(0))));
-            xAxis.setValueFormatter(new IndexAxisValueFormatter(getXAxisValues()));
-            xAxis.setLabelCount(xAxisLabel.size());
-            BarDataSet chartData = new BarDataSet(chartValues, "");
-            chartData.setColors(ColorTemplate.MATERIAL_COLORS);
-            BarData data = new BarData(chartData);
-            data.setValueTextSize(10f);
-            data.setValueTextColor(Color.YELLOW);
-            monthChart.setData(data);
-        } catch (Exception e) {
-            //Files don't exist
+        ArrayList<BarEntry> chartValues = new ArrayList<>();
+        ArrayList<String> monthLog = FileHelper.readFromFile(getContext(), "month_log");
+        int start = 0;
+        float xPos = 0;
+        if (monthLog.size() > 13) {
+            start = monthLog.size() - 13;
         }
+        for (int i = start; i < monthLog.size(); i++) {
+            String[] monthData = monthLog.get(i).split("_");
+            chartValues.add(new BarEntry(xPos, Float.parseFloat(monthData[2])));
+            xAxisLabel.add(monthData[0] + "/" + monthData[1]);
+            xPos++;
+        }
+        xAxisLabel.add(MonthTracker.getMonth() + "/" + MonthTracker.getYear());
+        chartValues.add(new BarEntry(xPos, Float.parseFloat(FileHelper.readFromFile(getContext(), "total").get(0))));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(getXAxisValues()));
+        xAxis.setLabelCount(xAxisLabel.size());
+        BarDataSet chartData = new BarDataSet(chartValues, "");
+        chartData.setColors(ColorTemplate.MATERIAL_COLORS);
+        BarData data = new BarData(chartData);
+        data.setValueTextSize(10f);
+        data.setValueTextColor(Color.YELLOW);
+        monthChart.setData(data);
     }
 
     private ArrayList<String> getXAxisValues() {

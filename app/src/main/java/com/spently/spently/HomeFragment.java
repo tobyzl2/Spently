@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment implements OCRFragment {
         try {
             totalSpent.setText("$" + FileHelper.readFromFile(getContext(), "total").get(0));
         } catch (Exception e) {
-            //No File Exists
+            e.printStackTrace();
         }
     }
 
